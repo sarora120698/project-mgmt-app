@@ -38,6 +38,7 @@ function App() {
       };
     });
   }
+  console.log(projectsState);
   let content;
   if (projectsState.selectedProjectId === null)
     content = (
@@ -48,16 +49,16 @@ function App() {
     );
   else if (projectsState.selectedProjectId === undefined)
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
-  else if (projectsState.selectedProjectId === und)
-    return (
-      <main className="h-screen my-8 flex gap-8">
-        <ProjectSidebar
-          onStartAddProject={handleStartAddProject}
-          projects={projectsState.projects}
-        />
-        {content}
-      </main>
-    );
+
+  return (
+    <main className="h-screen my-8 flex gap-8">
+      <ProjectSidebar
+        onStartAddProject={handleStartAddProject}
+        projects={projectsState.projects}
+      />
+      {content}
+    </main>
+  );
 }
 
 export default App;
