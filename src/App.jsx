@@ -7,7 +7,31 @@ function App() {
   const [projectsState, setProjectsState] = useState({
     selectedProjectId: undefined, //We use undefined(no project yet), null(no project selected) and id for selected project
     projects: [],
+    tasks: [],
   });
+  debugger;
+  function handleAddTask(taskVal) {
+    setProjectsState((prevState) => {
+      const taskId = Math.random();
+      const newTask = {
+        text: taskVal,
+        projectId: prevState.selectedProjectId,
+        id: taskId,
+      };
+      return {
+        ...prevState,
+        tasks: [newTask, ...prevState.tasks],
+      };
+    });
+  }
+  function handleDeleteTask(id) {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter((task) => task.id !== id),
+      };
+    });
+  }
   function handleStartAddProject() {
     // here we want to also get the previous state because pur proious state will have the list of objects
     setProjectsState((prevState) => {
@@ -62,7 +86,15 @@ function App() {
     (project) => project.id === projectsState.selectedProjectId
   );
   let content = (
-    <SelectedProject project={selectedProject} onDelete={handleDeleteProject} />
+    <SelectedProject
+      project={selectedProject}
+      onDelete={handleDeleteProject}
+      onAddTask={handleAddTask}
+      onDeleteTask={handleDeleteTask}
+      tasks={projectsState.tasks.filter(
+        ({ projectId }) => projectId === projectsState.selectedProjectId
+      )}
+    />
   );
   if (projectsState.selectedProjectId === null)
     content = (
